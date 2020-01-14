@@ -25,7 +25,22 @@ function bubbleSort(unsorted) {
     let temp = 0;
     while (!bool) {
         for (let i = 0; i <unsorted.length - 1; i++) {
+            setTimeout(function () {
+                console.log(unsorted[i]);
+                //ctx.fillStyle = '#d32850';
+                //ctx.fillRect(boxPosX + (boxWidth / unsorted.length) * i, boxPosY + boxHeight - (unsorted[i] / 100) * boxHeight, boxWidth / unsorted.length, (unsorted[i] / 100) * boxHeight);
+                //ctx.fillRect(boxPosX + (boxWidth / unsorted.length) * (i + 1), boxPosY + boxHeight - (unsorted[i + 1] / 100) * boxHeight, boxWidth / unsorted.length, (unsorted[i + 1] / 100) * boxHeight);
+            }, 2000);
             if (unsorted[i] > unsorted[i + 1]) {
+
+                /*setInterval(function () {
+                    /!*ctx.strokeStyle = 'white';
+                    ctx.lineWidth = 1;
+                    ctx.font = '36px arial';
+                    ctx.strokeText(i.toString(), 50, 50);*!/
+
+
+                }, 1000);*/
                 count++;
                 temp = unsorted[i];
                 unsorted[i] = unsorted[i + 1];
@@ -45,11 +60,8 @@ function initializeArray() {
     unsorted = array.map(function (num) {
         return num * (Math.floor(Math.random() * 100) + 1);
     });
+    //unsorted = [90,90, 100];
     displayArray(unsorted);
-    /*ctx.strokeStyle = 'white';
-    ctx.lineWidth = 1;
-    ctx.font = '36px arial';
-    ctx.strokeText(, 50, 50);*/
 }
 
 function displayArray(array) {
@@ -62,6 +74,54 @@ function displayArray(array) {
 }
 
 function sort() {
-    displayArray(bubbleSort(unsorted));
+    //bubbleSort(unsorted);
+    let sorted = false;
+    let count = 0;
+    (function theLoop (i) {
+        setTimeout(function () {
+            j = i - unsorted.length;
+            let temp = 0;
+            console.log(count);
+            ctx.fillStyle = '#d32850';
+            ctx.fillRect(boxPosX + (boxWidth / unsorted.length) * (j), boxPosY + boxHeight - (unsorted[j] / 100) * boxHeight, boxWidth / unsorted.length, (unsorted[j] / 100) * boxHeight);
+            ctx.fillRect(boxPosX + (boxWidth / unsorted.length) * (j + 1), boxPosY + boxHeight - (unsorted[j + 1] / 100) * boxHeight, boxWidth / unsorted.length, (unsorted[j + 1] / 100) * boxHeight);
+            if (unsorted[j] > unsorted[j + 1]) {
+                setTimeout(function () {
+                    count++;
+                    temp = unsorted[j];
+                    unsorted[j] = unsorted[j + 1];
+                    unsorted[j + 1] = temp;
+                    ctx.fillStyle = 'white';
+                    ctx.fillRect(boxPosX + (boxWidth / unsorted.length) * (j), boxPosY, boxWidth / unsorted.length * 2, boxHeight);
+                    ctx.fillStyle = '#d32850';
+                    ctx.fillRect(boxPosX + (boxWidth / unsorted.length) * (j), boxPosY + boxHeight - (unsorted[j] / 100) * boxHeight, boxWidth / unsorted.length, (unsorted[j] / 100) * boxHeight);
+                    ctx.fillRect(boxPosX + (boxWidth / unsorted.length) * (j + 1), boxPosY + boxHeight - (unsorted[j + 1] / 100) * boxHeight, boxWidth / unsorted.length, (unsorted[j + 1] / 100) * boxHeight);
+                }, 250);
+
+                setTimeout(function () {
+                    ctx.fillStyle = '#2980b9';
+                    ctx.fillRect(boxPosX + (boxWidth / unsorted.length) * (j), boxPosY + boxHeight - (unsorted[j] / 100) * boxHeight, boxWidth / unsorted.length, (unsorted[j] / 100) * boxHeight);
+                    ctx.fillRect(boxPosX + (boxWidth / unsorted.length) * (j + 1), boxPosY + boxHeight - (unsorted[j + 1] / 100) * boxHeight, boxWidth / unsorted.length, (unsorted[j + 1] / 100) * boxHeight);
+
+                }, 250);
+            } else if (unsorted[j] <= unsorted[j + 1]) {
+                setTimeout(function () {
+                    ctx.fillStyle = '#2980b9';
+                    ctx.fillRect(boxPosX + (boxWidth / unsorted.length) * (j), boxPosY + boxHeight - (unsorted[j] / 100) * boxHeight, boxWidth / unsorted.length, (unsorted[j] / 100) * boxHeight);
+                    ctx.fillRect(boxPosX + (boxWidth / unsorted.length) * (j + 1), boxPosY + boxHeight - (unsorted[j + 1] / 100) * boxHeight, boxWidth / unsorted.length, (unsorted[j + 1] / 100) * boxHeight);
+                }, 250)
+            } else if (j === (unsorted.length - 2) && count === 0) {
+                sorted = true;
+            }
+            if (++i && i < unsorted.length * 2 - 1) {          // If i > 0, keep going
+                theLoop(i);       // Call the loop again, and pass it the current value of i
+            } else if (count > 0 && sorted === false) {
+                i = unsorted.length;
+                count = 0;
+                theLoop(i);
+            }
+        }, 500);
+    })(unsorted.length);
+
 }
 
